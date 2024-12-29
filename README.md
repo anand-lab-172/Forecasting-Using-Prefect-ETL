@@ -1,4 +1,4 @@
-# Forecasting-Using-Prefect-ETL
+# Project Title
 
 ## Description
 This project involves using a Variational Long Short-Term Memory (VLSTM) model for time series forecasting. The project also utilizes Prefect for orchestrating and managing workflows.
@@ -20,25 +20,33 @@ This project involves using a Variational Long Short-Term Memory (VLSTM) model f
     ```
 
 ### Using Prefect
-1. Define the asynchronous function in your Prefect flow:
-    ```python
-    async def fetch_work_pools():
-        client = get_client()
-        work_pools = await client.read_work_pools()
-        print(work_pools)
-    ```
-2. Set the Prefect API URL in your environment:
+1. Start the Prefect server:
     ```sh
-    export PREFECT_API_URL=http://127.0.0.1:4200
+    prefect server start
     ```
-3. Verify the environment variable is set:
-    ```python
-    import os
-    api_url = os.getenv('PREFECT_API_URL')
-    if api_url:
-        print(f"PREFECT_API_URL is set to: {api_url}")
-    else:
-        print("PREFECT_API_URL is not set.")
+2. Deploy the VLSTM pipeline:
+    ```sh
+    prefect deploy --prefect-file prefect.yaml --name "VLSTM Pipeline"
+    ```
+3. Create a work pool named "Automation":
+    ```sh
+    prefect work-pool create "Automation"
+    ```
+4. Start a worker in the "Automation" pool:
+    ```sh
+    prefect worker start --pool "Automation"
+    ```
+5. Stop the worker in the "Automation" pool:
+    ```sh
+    prefect worker stop --pool "Automation"
+    ```
+6. Delete the "Automation" work pool:
+    ```sh
+    prefect work-pool delete "Automation"
+    ```
+7. List all work pools:
+    ```sh
+    prefect work-pool ls
     ```
 
 ## Contributing

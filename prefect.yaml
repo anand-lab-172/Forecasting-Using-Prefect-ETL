@@ -1,0 +1,57 @@
+deployments:
+
+  - name: GDP Pipeline
+    entrypoint: ./world.py:gdp_etl_pipeline
+    tags: ['Economy'] 
+    parameters:
+      input_file: "world-data-2023.csv"
+      output_file: "world-data-2023-transformed.csv"
+    schedule:
+      cron: "0 13 * * *"
+      timezone: "Asia/Calcutta" 
+    work_pool:
+      name: Automation
+      job_variables: 
+        MAX_MEMORY: "4GB"
+
+  - name: Health Pipeline
+    entrypoint: ./health.py:disease_data_etl_pipeline
+    tags: ['Health'] 
+    parameters:
+      input_file: "Global Health Statistics.csv"
+      output_file: "transformed_disease_data.csv"
+    schedule:
+      cron: "0 13 * * *"
+      timezone: "Asia/Calcutta" 
+    work_pool:
+      name: Automation
+      job_variables: 
+        MAX_MEMORY: "4GB"
+
+  - name: VLSTM Pipeline
+    entrypoint: ./vlstm.py:stock_forecasting_etl_pipeline
+    tags: ['VLSTM']
+    parameters:
+      input_file: "INTC.csv"
+      output_file: "forecast.csv"
+    schedule:
+      cron: "0 13 * * *"
+      timezone: "Asia/Calcutta" 
+    work_pool:
+      name: Automation
+      job_variables: 
+        MAX_MEMORY: "4GB"
+
+  - name: Marine Pipeline
+    entrypoint: ./fish.py:fish_data
+    tags: ['Marine']
+    parameters:
+      input_file: "Marine_Fish_Data.csv"
+      output_file: "Marine_Fish_Pred.csv"
+    schedule:
+      cron: "0 13 * * *"
+      timezone: "Asia/Calcutta" 
+    work_pool:
+      name: Automation
+    job_variables: 
+      memory: "4GB"
